@@ -9,7 +9,20 @@
 
 <body>
     <script>
-        fetch("http://localhost:3000/")
+
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get('id');
+        
+        fetch(`http://localhost:3000/${id}`, { // <-- ID aquí
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                nombre: 'dylan gg'
+
+            })
+        })
             .then(res => res.json())
             .then((res) => {
                 console.log(res)
@@ -17,21 +30,8 @@
             .catch((e) => {
                 console.log(e)
             })
-
-
-
-        async function obtenerDatos() {
-            try {
-                const res = await fetch("http://localhost:3000/producto");
-                const data = await res.json();
-                console.log(data);
-            } catch (e) {
-                console.log(e);
-            }
-        }
-
-        obtenerDatos();
     </script>
+
 </body>
 
 </html>
