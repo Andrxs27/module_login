@@ -19,7 +19,7 @@ document.getElementById("registroForm").addEventListener("submit", async functio
         born: form.born.value
     };
 
-    const res = await fetch("http://localhost:3000/api/register", {
+    const res = await fetch(`${url}/register`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
