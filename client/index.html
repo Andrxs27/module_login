@@ -1,37 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Iniciar Sesión</title>
+    <link rel="stylesheet" href="./assets/css/style.css">
 </head>
-
 <body>
-    <script>
-        fetch("http://localhost:3000/")
-            .then(res => res.json())
-            .then((res) => {
-                console.log(res)
-            })
-            .catch((e) => {
-                console.log(e)
-            })
 
+    <div class="contenedor">
+        <h1>Bienvenido</h1>
+        <p>Ingresa tus datos</p>
 
+        <form>
+            <label>Correo electrónico</label>
+            <input type="email" placeholder="correo@ejemplo.com">
 
-        async function obtenerDatos() {
-            try {
-                const res = await fetch("http://localhost:3000/producto");
-                const data = await res.json();
-                console.log(data);
-            } catch (e) {
-                console.log(e);
-            }
-        }
+            <label>Contraseña</label>
+            <input type="password" placeholder="Tu contraseña">
 
-        obtenerDatos();
-    </script>
+            <div class="link-derecha">
+                <a href="olvide.html">¿Olvidaste tu contraseña?</a>
+            </div>
+
+            <button type="submit">Entrar</button>
+        </form>
+
+        <p class="pie-pagina">
+            ¿No tienes cuenta? <a href="registro.html">Regístrate aquí</a>
+        </p>
+    </div>
+
+    <script src="./assets/js/registro.js"></script>
+
 </body>
-
 </html>
