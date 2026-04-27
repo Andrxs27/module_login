@@ -7,37 +7,65 @@
     <title>Document</title>
 </head>
 
+
 <body>
+
+    <form id="formulario">
+        <div class="name">
+            <label for="into">Name</label>
+            <input type="text" id="into">
+        </div>
+        <br>
+        <div class="edad">
+            <label for="age">Age</label>
+            <input type="number" max="130" min="1" id="age">
+        </div>
+        <br>
+        <div><button type="button">Submit</button></div>
+
+    </form>
+
+
     <script>
-        fetch("http://localhost:3000/123", { // <-- ID aquí
-            method: 'PUT',
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get('id');
+
+
+        fetch(`http://localhost:3000/${id}`, { // <-- ID aquíF
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                nombre: 'Faber sin lentes',
-                edad: 20
-            })
+
         })
             .then(res => res.json())
             .then((res) => {
                 console.log(res)
+                if (res.id == "null") {
+                    alert("No se encontró el usuario");
+                } else {
+                    document.getElementById("into").value = res.data.nombre;
+                    document.getElementById("age").value = res.data.edad;
+                }
             })
             .catch((e) => {
                 console.log(e)
             })
 
+
         async function actualizarUsuario() {
+
+            data = {
+                nombre: document.getElementById("into").value,
+                edad: document.getElementById("age").value
+            }
             try {
-                const res = await fetch("http://localhost:3000/123", {
+                const res = await fetch(`http://localhost:3000/${id}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({
-                        nombre: 'Faber sin lentes',
-                        edad: 20
-                    })
+                    body: JSON.stringify(data)
                 });
 
                 const data = await res.json();
