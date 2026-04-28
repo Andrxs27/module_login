@@ -6,8 +6,14 @@ const port = 3000
 app.use(cors());
 app.use(express.json());
 
+const datas = [
+  { id: 1, nombre: 'Valen', edad: 25 },
+  { id: 2, nombre: 'Juan', edad: 30 },
+  { id: 3, nombre: 'Maria', edad: 28 }  
+]
+
 app.get('/', (req, res) => {
-  res.json({ mensaje: 'CORS abierto 🚀' });
+  res.json({ mensaje: 'CORS abierto 🚀', datas: datas });
 })
 
 app.get('/producto', (req, res) => {
@@ -18,15 +24,9 @@ app.get('/producto', (req, res) => {
 app.get('/:id', (req, res) => {
   const id = req.params.id;
   
-  rolfinal = null
-  if(id == 1) {
-    rolfinal = "admin"
-  } else {
-    rolfinal = "user"
-  }
-
-  console.log(id, rolfinal)
-  res.json({ ms: "true", id: id, role: rolfinal });
+ const dfinal = { nombre: 'Valen', edad: 25 }
+  console.log(id, dfinal)
+  res.json({ ms: "true", id: id, data: dfinal });
 })
 
 app.post('/', (req, res) => {
