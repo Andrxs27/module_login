@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Olvidé mi contraseña</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="contenedor">
+        <h1>Recuperar cuenta</h1>
+        <p>Ingresa tu correo y te enviaremos un enlace para restablecer tu contraseña.</p>
+
+        <form id="formOlvide">
+            <label>Correo electrónico</label>
+            <input type="email" name="email" placeholder="correo@ejemplo.com" required>
+
+            <button type="submit">Enviar enlace</button>
+        </form>
+
+        <div id="mensaje"></div>
+
+        <p class="enlace">
+            ¿Ya recordaste tu contraseña? <a href="index.html">Inicia sesión</a>
+        </p>
+    </div>
+
+    <script src="olvide.js"></script>
+
+</body>
+</html>
