@@ -71,3 +71,35 @@ a {
     color: #007bff;
     text-decoration: none;
 }
+
+/* Estilos para la tabla del admin */
+table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    margin-top: 20px; 
+    background: white; 
+    color: black; 
+}
+
+th, td { 
+    padding: 10px; 
+    border: 1px solid #ddd; 
+    text-align: left; 
+}
+
+.btn-logout { 
+    background: #333; 
+    color: white; 
+    padding: 10px; 
+    border: none; 
+    cursor: pointer; 
+    margin-top: 20px; 
+}
+
+.btn-logout:hover {
+    background: #555;
+}
+
+#admin-section {
+    margin-top: 20px;
+}

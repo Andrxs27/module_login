@@ -2,33 +2,40 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar Sesión</title>
-    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="/client/assets/css/style.css">
 </head>
-<body>
+<body id="cuerpo-pagina"> <!-- ID añadido para cambiar el color de fondo -->
 
-    <div class="contenedor">
-        <h1>Bienvenido</h1>
-        <p>Ingresa tus datos</p>
+    <div class="contenedor" id="login-container">
+        <h1 id="titulo-bienvenida">Bienvenido</h1>
+        <p id="subtitulo">Ingresa tus datos</p>
 
-        <form>
+        <form id="loginForm"> <!-- ID añadido -->
             <label>Correo electrónico</label>
-            <input type="email" placeholder="correo@ejemplo.com">
+            <input type="email" id="email" placeholder="correo@ejemplo.com" required>
 
             <label>Contraseña</label>
-            <input type="password" placeholder="Tu contraseña">
+            <input type="password" id="password" placeholder="Tu contraseña" required>
 
             <div class="link-derecha">
-                <a href="olvide.html">¿Olvidaste tu contraseña?</a>
+                <a href="/client/olvide.html">¿Olvidaste tu contraseña?</a>
             </div>
 
             <button type="submit">Entrar</button>
         </form>
 
-        <p class="pie-pagina">
-            ¿No tienes cuenta? <a href="registro.html">Regístrate aquí</a>
+        <!-- Aquí se cargará la tabla si eres administrador -->
+        <div id="admin-section"></div>
+
+        <p class="pie-pagina" id="link-registro">
+            ¿No tienes cuenta? <a href="/client/registro.html">Regístrate aquí</a>
         </p>
     </div>
+    
+    <script src="/client/assets/js/login.js"></script>
+    <script src="/client/assets/js/registro.js"></script>
 
 </body>
 </html>

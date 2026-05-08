@@ -2,8 +2,9 @@ const pool = require("../db");
 const bcrypt = require("bcrypt");
 const { v4: uuidv4 } = require("uuid");
 const nodemailer = require("nodemailer");
+const jwt = require("jsonwebtoken");
 
-// CONFIGURAR CORREO (CAMBIA ESTO)
+// CONFIGURAR CORREO
 const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -22,7 +23,6 @@ exports.register = async (req, res) => {
     } = req.body;
 
     try {
-        // Verificar si ya existe
         const userExist = await pool.query(
             "SELECT * FROM users WHERE email = $1",
             [email]
@@ -32,12 +32,9 @@ exports.register = async (req, res) => {
             return res.json({ message: "El correo ya está registrado" });
         }
 
-        // Encriptar contraseña
         const hashedPassword = await bcrypt.hash(password, 10);
-
         const id = uuidv4();
 
-        // Guardar usuario (inactivo)
         await pool.query(
             `INSERT INTO users 
             (id, name, lastname, email, password, document, type_document, phone, address, age, departamento, ciudad, sexo, born, active)
@@ -49,12 +46,10 @@ exports.register = async (req, res) => {
             ]
         );
 
-        // LINK DE VERIFICACIÓN
         const verifyLink = `http://localhost:3000/api/verify?id=${id}`;
 
-        //  ENVIAR CORREO
         await transporter.sendMail({
-            from: "TU_CORREO@gmail.com",
+            from: "jugando1404@gmail.com",
             to: email,
             subject: "Verifica tu cuenta",
             html: `
@@ -87,5 +82,72 @@ exports.verifyEmail = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.send("Error al verificar");
+    }
+};
+
+// --- INTEGRACIONES NUEVAS ---
+
+// LOGIN 
+exports.login = async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+        const userRes = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
+        
+        if (userRes.rows.length === 0) {
+            return res.json({ message: "Usuario no encontrado" });
+        }
+
+        const user = userRes.rows[0];
+
+        if (!user.active) {
+            return res.json({ message: "Debes verificar tu cuenta primero 📧" });
+        }
+
+        const validPassword = await bcrypt.compare(password, user.password);
+        if (!validPassword) {
+            return res.json({ message: "Contraseña incorrecta" });
+        }
+
+        const token = jwt.sign(
+            { id: user.id, rol: user.rol }, 
+            "palabra_secreta", 
+            { expiresIn: "2h" }
+        );
+
+        res.json({ 
+            message: "Bienvenido",
+            token, 
+            rol: user.rol, 
+            nombre: user.name 
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error al entrar" });
+    }
+};
+
+// OBTENER TODOS LOS USUARIOS (Para el administrador)
+exports.getAllUsers = async (req, res) => {
+    try {
+        const result = await pool.query("SELECT id, name, lastname, email, rol FROM users");
+        res.json(result.rows);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error al cargar usuarios" });
+    }
+};
+
+// CAMBIAR EL ROL
+exports.updateRole = async (req, res) => {
+    const { id, nuevoRol } = req.body;
+
+    try {
+        await pool.query("UPDATE users SET rol = $1 WHERE id = $2", [nuevoRol, id]);
+        res.json({ message: "Rol actualizado con éxito a " + nuevoRol });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error al actualizar rol" });
     }
 };
